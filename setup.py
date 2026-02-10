@@ -36,5 +36,5 @@ setup(
     author="Justin Bui",
     author_email="jbui3493@gmail.com",
     packages=find_packages(),
-    insall_requires=get_requirements(),
+    install_requires=get_requirements(),
 )
