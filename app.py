@@ -53,6 +53,7 @@ async def index():
 
 @app.get("/train")
 async def train_route():
+    print('Hello world')
     try:
         train_pipeline=TrainingPipeline()
         train_pipeline.run_pipeline()
