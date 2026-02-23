@@ -27,13 +27,11 @@ import mlflow
 from urllib.parse import urlparse
 
 import dagshub
-dagshub.init(repo_owner='JustinBui', repo_name='networksecurity', mlflow=True)
 
-os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/JustinBui/networksecurity.mlflow"
-os.environ["MLFLOW_TRACKING_USERNAME"]="JustinBui"
-os.environ["MLFLOW_TRACKING_PASSWORD"]="f5c2a8f9388091f77de4adbbb67a2601a120115e"
+if os.getenv("ENV") == "local":
+    dagshub.init(repo_owner="JustinBui", repo_name="networksecurity", mlflow=True)
 
-
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,data_transformation_artifact:DataTransformationArtifact):
@@ -44,7 +42,7 @@ class ModelTrainer:
             raise NetworkSecurityException(e,sys)
         
     def track_mlflow(self,best_model,classificationmetric,best_model_name):
-        mlflow.set_registry_uri("https://dagshub.com/JustinBui/networksecurity.mlflow")
+        mlflow.set_registry_uri(os.getenv("MLFLOW_TRACKING_URI"))
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         with mlflow.start_run():
             f1_score=classificationmetric.f1_score
