@@ -1,13 +1,18 @@
 import sys
 import os
+from urllib.parse import quote_plus
 
 import certifi
 ca = certifi.where()
 
 from dotenv import load_dotenv
 load_dotenv()
-mongo_db_url = os.getenv("MONGODB_URL_KEY")
+
+username = os.environ["MONGO_USERNAME"]
+password = os.environ["MONGO_PASSWORD"]
+mongo_db_url = f"mongodb+srv://{username}:{quote_plus(password)}@cluster0.5gsacs2.mongodb.net/?appName=Cluster0"
 print(mongo_db_url)
+
 import pymongo
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
